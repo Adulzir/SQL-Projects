@@ -1,6 +1,7 @@
 /*
 Covid 19 Data Exploration
 Skills used: Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
+Raw data provided by Our World in Data: https://ourworldindata.org/covid-deaths - Downloaded Nov 28 2022
 */
 
 SELECT * from Project1.CovidDeaths
