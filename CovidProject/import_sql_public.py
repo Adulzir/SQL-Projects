@@ -11,8 +11,8 @@ tablename1 = 'CovidDeaths'
 tablename2 = 'CovidVaccinations'
 
 # Use Pandas to read csv file(s) into a dataframe
-df1 = pd.read_csv('/enter/path/name/CovidDeaths.csv')
-df2 = pd.read_csv('/enter/path/name//CovidVaccinations.csv')
+df1 = pd.read_csv('/enter/path/name/to/CovidDeaths.csv')
+df2 = pd.read_csv('/enter/path/name/to/CovidVaccinations.csv')
 
 # Obtain a SQLAlchemy engine object to connect to the MySQL database server by providing required credentials
 engine = create_engine('mysql+pymysql://root:password@localhost/Project1')
