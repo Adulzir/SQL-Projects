@@ -71,43 +71,43 @@ ORDER BY 1,2;
  
  -- GLOBAL NUMBERS -- 
  -- Showing total cases, deaths, and death percentages per day 
- Select date, SUM(new_cases) as total_cases, SUM(new_deaths) as total_deaths, SUM(new_deaths)/SUM(new_cases)*100 as DeathPercentage
- FROM Project1.CovidDeaths
- WHERE continent is not null
- GROUP BY date
- ORDER by 1,2;
+Select date, SUM(new_cases) as total_cases, SUM(new_deaths) as total_deaths, SUM(new_deaths)/SUM(new_cases)*100 as DeathPercentage
+FROM Project1.CovidDeaths
+WHERE continent is not null
+GROUP BY date
+ORDER by 1,2;
  
  -- Showing total cases, deaths, and death percentage of all time (dates: 
- SELECT SUM(new_cases) as total_cases, SUM(new_deaths) as total_deaths, SUM(new_deaths)/ SUM(new_cases) * 100 as DeathPercentage
- FROM Project1.CovidDeaths
- WHERE continent is not null
- ORDER BY 1,2;
+SELECT SUM(new_cases) as total_cases, SUM(new_deaths) as total_deaths, SUM(new_deaths)/ SUM(new_cases) * 100 as DeathPercentage
+FROM Project1.CovidDeaths
+WHERE continent is not null
+ORDER BY 1,2;
  
 -- Total Population vs Vaccinations
 -- Shows Percentage of Population that has recieved at least one Covid Vaccine
-  SELECT dea.continent, dea.location, dea.date, dea.population, new_vaccinations
+SELECT dea.continent, dea.location, dea.date, dea.population, new_vaccinations
  , SUM(new_vaccinations) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) as RollingPeopleVaccinated
- FROM Project1.CovidVaccinations dea
- JOIN Project1.CovidDeaths vac
+FROM Project1.CovidVaccinations dea
+JOIN Project1.CovidDeaths vac
 	ON dea.location = vac.location 
     AND dea.date = vac.date
- WHERE dea.continent is not null
+WHERE dea.continent is not null
  
   -- Using CTE to perform Calculation on Partition By in previous query
  
- WITH PopVsVac (Continent, Location, Date, Population, New_Vaccinations, RollingPeopleVaccinated)
- as (
+WITH PopVsVac (Continent, Location, Date, Population, New_Vaccinations, RollingPeopleVaccinated)
+as (
  -- Total Population vs Vaccinations 
- SELECT dea.continent, dea.location, dea.date, dea.population, new_vaccinations
+SELECT dea.continent, dea.location, dea.date, dea.population, new_vaccinations
  , SUM(new_vaccinations) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) as RollingPeopleVaccinated
- FROM Project1.CovidVaccinations dea
- JOIN Project1.CovidDeaths vac
+FROM Project1.CovidVaccinations dea
+JOIN Project1.CovidDeaths vac
 	ON dea.location = vac.location 
     AND dea.date = vac.date
- WHERE dea.continent is not null
+WHERE dea.continent is not null
  )
- SELECT *, (RollingPeopleVaccinated/Population) * 100 as PercentageVacPeople
- FROM PopVsVac;
+SELECT *, (RollingPeopleVaccinated/Population) * 100 as PercentageVacPeople
+FROM PopVsVac;
  
  -- Using Temp Table to perform Calculation on Partition By in previous query
 
@@ -124,11 +124,11 @@ RollingPeopleVaccinated numeric
 INSERT INTO PercentPopulationVaccinated
 SELECT dea.continent, dea.location, dea.date, dea.population, new_vaccinations
  , SUM(new_vaccinations) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) as RollingPeopleVaccinated
- FROM Project1.CovidVaccinations dea
- JOIN Project1.CovidDeaths vac
+FROM Project1.CovidVaccinations dea
+JOIN Project1.CovidDeaths vac
 	ON dea.location = vac.location 
     AND dea.date = vac.date
- WHERE dea.continent is not null;
+WHERE dea.continent is not null;
 
  
 SELECT *, (RollingPeopleVaccinated/Population) * 100 as PercentageVacPeople
