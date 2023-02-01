@@ -78,7 +78,7 @@ WHERE continent is not null
 GROUP BY date
 ORDER by 1,2;
  
- -- Showing total cases, deaths, and death percentage of all time (dates: 
+ -- Showing total cases, deaths, and death percentage of all time 
 SELECT SUM(new_cases) as total_cases, SUM(new_deaths) as total_deaths, SUM(new_deaths)/ SUM(new_cases) * 100 as DeathPercentage
 FROM Project1.CovidDeaths
 WHERE continent is not null
