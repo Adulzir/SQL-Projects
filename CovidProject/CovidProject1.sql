@@ -122,32 +122,30 @@ RollingPeopleVaccinated numeric
 );
 
 INSERT INTO PercentPopulationVaccinated
- SELECT dea.continent, dea.location, dea.date, dea.population, new_vaccinations
+SELECT dea.continent, dea.location, dea.date, dea.population, new_vaccinations
  , SUM(new_vaccinations) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) as RollingPeopleVaccinated
- -- , (RollingPeopleVaccinated/dea.population) * 100
  FROM Project1.CovidVaccinations dea
  JOIN Project1.CovidDeaths vac
 	ON dea.location = vac.location 
     AND dea.date = vac.date
  WHERE dea.continent is not null;
--- ORDER BY 2,3
+
  
 SELECT *, (RollingPeopleVaccinated/Population) * 100 as PercentageVacPeople
- FROM PercenPopulationVaccinated ;
+FROM PercenPopulationVaccinated ;
  
- -- Creatimg view to store data for later visualization
+ -- Creating view to store data for later visualization
  
- DROP TABLE IF EXISTS PercentPopulationVaccinated;
+DROP TABLE IF EXISTS PercentPopulationVaccinated;
 CREATE VIEW PercentPopulationVaccinated as 
- SELECT dea.continent, dea.location, dea.date, dea.population, new_vaccinations
+SELECT dea.continent, dea.location, dea.date, dea.population, new_vaccinations
  , SUM(new_vaccinations) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) as RollingPeopleVaccinated
- -- , (RollingPeopleVaccinated/dea.population) * 100
- FROM Project1.CovidVaccinations dea
- JOIN Project1.CovidDeaths vac
+FROM Project1.CovidVaccinations dea
+JOIN Project1.CovidDeaths vac
 	ON dea.location = vac.location 
     AND dea.date = vac.date
- WHERE dea.continent is not null;
--- ORDER BY 2,3
+WHERE dea.continent is not null;
+
  
  SELECT *
  FROM PercentPopulationVaccinated;
